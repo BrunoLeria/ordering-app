@@ -5,9 +5,9 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import { AUTH_SERVICE } from './services';
-import { Observable, tap, catchError } from 'rxjs';
 import { ClientProxy } from '@nestjs/microservices';
+import { catchError, Observable, tap } from 'rxjs';
+import { AUTH_SERVICE } from './services';
 
 @Injectable()
 export class JwtAuthGuard implements CanActivate {
@@ -18,7 +18,9 @@ export class JwtAuthGuard implements CanActivate {
   ): boolean | Promise<boolean> | Observable<boolean> {
     const authentication = this.getAuthentication(context);
     return this.authClient
-      .send('validate_user', { Authentication: authentication })
+      .send('validate_user', {
+        Authentication: authentication,
+      })
       .pipe(
         tap((res) => {
           this.addUser(res, context);
@@ -46,9 +48,11 @@ export class JwtAuthGuard implements CanActivate {
         .cookies?.Authentication;
     }
     if (!authentication) {
-      throw new UnauthorizedException('No authentication provided');
+      throw new UnauthorizedException(
+        'No value was provided for Authentication',
+      );
     }
-
+    
     return authentication;
   }
 }
