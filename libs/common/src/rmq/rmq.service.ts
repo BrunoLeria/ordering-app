@@ -20,7 +20,7 @@ export class RmqService {
 
   ack(context: RmqContext) {
     const channel = context.getChannelRef();
-    const message = context.getMessage();
-    channel.ack(message);
+    const originalMessage = context.getMessage();
+    channel.ack(originalMessage);
   }
 }

@@ -1,13 +1,13 @@
-#Versionig and metadata
+# Versioning and metadata
 .git
 .gitignore
 .dockerignore
 
 # Build dependencies
-node_modules
 dist.do
+node_modules
 
-# Environment variables (contains sensitive data)
+# Environment (contains sensitive data)
 *.env
 
 # Misc
